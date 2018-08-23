@@ -1,4 +1,5 @@
 *.pyc
+.idea/*
 venv/*
 __pycache__/*
 copy.sh
