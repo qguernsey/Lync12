@@ -1,0 +1,73 @@
+      body {
+        margin: 5px;
+      }
+
+      .clear {
+        clear: both;
+      }
+
+      .off .title {
+        color: #999;
+      }
+
+      .ui-radio .ui-btn-active.ui-first-child {
+        background-color: #00BF05;
+        border-color: #ddd;
+      }
+
+      .ui-radio .ui-btn-active.ui-last-child {
+        background-color: #E82C0C;
+        border-color: #ddd;
+      }
+
+      .zone {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #aaa;
+      }
+
+      .zone.noDivider {
+        margin-top: 0px;
+        padding-top: 0px;
+        border-top: none;
+      }
+
+      .title {
+        font-weight: bold;
+        line-height: 3em;
+        text-align: center;
+      }
+
+      .powerContainer {
+        float: left;
+        margin-left: 5px;
+      }
+
+      .volumeContainer {
+      }
+
+      .muteContainer {
+        float: left;
+        text-align: center;
+        height: 60%
+        margin-left: 50px;
+      }
+
+      .inputContainer {
+        float: right;
+      }
+
+      .containerTitle {
+        float: top;
+        font-weight: normal;
+        text-align: center;
+      }
+
+      /* Hide the number input */
+      .full-width-slider .ui-slider input {
+        display: none;
+      }
+
+      .full-width-slider .ui-slider-track {
+        margin-left: 15px;
+      }

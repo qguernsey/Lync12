@@ -1,0 +1,537 @@
+<!doctype>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <script src="./audio.js"></script>
+    <link rel="stylesheet" media="screen and (max-device-width: 480px) and (orientation: portrait)" href="mobile-portrait.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 480px) and (orientation: landscape)" href="mobile-landscape.css" />
+    <link rel="stylesheet" media="screen and (min-device-width: 800px)" href="screen.css" />
+  </head>
+  <body>
+    <div data-role="page" class="full-width-slider">
+      <form>
+        <!-- ========================================= -->
+        <div id="zone-1" class="zone noDivider off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-1" id="power-1-on" value="on">
+              <label for="power-1-on">On</label>
+              <input type="radio" name="power-1" id="power-1-off" value="off" checked="checked">
+              <label for="power-1-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-1" id="mute-1-on" value="on">
+              <label for="mute-1-on">On</label>
+              <input type="radio" name="mute-1" id="mute-1-off" value="off" checked="checked">
+              <label for="mute-1-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='inputContainer'>
+            <select name="input-1" id="input-1" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-1'>Loading...</div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-1" id="volume-1" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-2" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-2" id="power-2-on" value="on">
+              <label for="power-2-on">On</label>
+              <input type="radio" name="power-2" id="power-2-off" value="off" checked="checked">
+              <label for="power-2-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-2" id="mute-2-on" value="on">
+              <label for="mute-2-on">On</label>
+              <input type="radio" name="mute-2" id="mute-2-off" value="off" checked="checked">
+              <label for="mute-2-off">Off</label>
+            </fieldset>
+          </div>
+
+          <div class='inputContainer'>
+            <select name="input-2" id="input-2" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-2'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-2" id="volume-2" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-3" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-3" id="power-3-on" value="on">
+              <label for="power-3-on">On</label>
+              <input type="radio" name="power-3" id="power-3-off" value="off" checked="checked">
+              <label for="power-3-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-3" id="mute-3-on" value="on">
+              <label for="mute-3-on">On</label>
+              <input type="radio" name="mute-3" id="mute-3-off" value="off" checked="checked">
+              <label for="mute-3-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-3" id="input-3" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-3'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-3" id="volume-3" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-4" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-4" id="power-4-on" value="on">
+              <label for="power-4-on">On</label>
+              <input type="radio" name="power-4" id="power-4-off" value="off" checked="checked">
+              <label for="power-4-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-4" id="mute-4-on" value="on">
+              <label for="mute-4-on">On</label>
+              <input type="radio" name="mute-4" id="mute-4-off" value="off" checked="checked">
+              <label for="mute-4-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-4" id="input-4" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-4'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-4" id="volume-4" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-5" class="zone off">
+          <div class='powerContainer'>
+             <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-5" id="power-5-on" value="on">
+              <label for="power-5-on">On</label>
+              <input type="radio" name="power-5" id="power-5-off" value="off" checked="checked">
+              <label for="power-5-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-5" id="mute-5-on" value="on">
+              <label for="mute-5-on">On</label>
+              <input type="radio" name="mute-5" id="mute-5-off" value="off" checked="checked">
+              <label for="mute-5-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-5" id="input-5" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-5'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-5" id="volume-5" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-6" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-6" id="power-6-on" value="on">
+              <label for="power-6-on">On</label>
+              <input type="radio" name="power-6" id="power-6-off" value="off" checked="checked">
+              <label for="power-6-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-6" id="mute-6-on" value="on">
+              <label for="mute-6-on">On</label>
+              <input type="radio" name="mute-6" id="mute-6-off" value="off" checked="checked">
+              <label for="mute-6-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-6" id="input-6" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-6'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-6" id="volume-6" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-7" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-7" id="power-7-on" value="on">
+              <label for="power-7-on">On</label>
+              <input type="radio" name="power-7" id="power-7-off" value="off" checked="checked">
+              <label for="power-7-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-7" id="mute-7-on" value="on">
+              <label for="mute-7-on">On</label>
+              <input type="radio" name="mute-7" id="mute-7-off" value="off" checked="checked">
+              <label for="mute-7-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-7" id="input-7" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-7'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-7" id="volume-7" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-8" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-8" id="power-8-on" value="on">
+              <label for="power-8-on">On</label>
+              <input type="radio" name="power-8" id="power-8-off" value="off" checked="checked">
+              <label for="power-8-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-8" id="mute-8-on" value="on">
+              <label for="mute-8-on">On</label>
+              <input type="radio" name="mute-8" id="mute-8-off" value="off" checked="checked">
+              <label for="mute-8-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-8" id="input-8" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-8'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-8" id="volume-8" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-9" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-9" id="power-9-on" value="on">
+              <label for="power-9-on">On</label>
+              <input type="radio" name="power-9" id="power-9-off" value="off" checked="checked">
+              <label for="power-9-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-9" id="mute-9-on" value="on">
+              <label for="mute-9-on">On</label>
+              <input type="radio" name="mute-9" id="mute-9-off" value="off" checked="checked">
+              <label for="mute-9-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-9" id="input-9" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-9'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-9" id="volume-9" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-10" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-10" id="power-10-on" value="on">
+              <label for="power-10-on">On</label>
+              <input type="radio" name="power-10" id="power-10-off" value="off" checked="checked">
+              <label for="power-10-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-10" id="mute-10-on" value="on">
+              <label for="mute-10-on">On</label>
+              <input type="radio" name="mute-10" id="mute-10-off" value="off" checked="checked">
+              <label for="mute-10-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-10" id="input-10" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-10'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-10" id="volume-10" min="0" max="100" value="50" disabled="true">
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-11" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-11" id="power-11-on" value="on">
+              <label for="power-11-on">On</label>
+              <input type="radio" name="power-11" id="power-11-off" value="off" checked="checked">
+              <label for="power-11-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-11" id="mute-11-on" value="on">
+              <label for="mute-11-on">On</label>
+              <input type="radio" name="mute-11" id="mute-11-off" value="off" checked="checked">
+              <label for="mute-11-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-11" id="input-11" data-mini="true" disabled="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-11'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-11" id="volume-11" min="0" max="100" value="50" >
+          </div>
+        </div>
+
+        <!-- ========================================= -->
+        <div id="zone-12" class="zone off">
+          <div class='powerContainer'>
+            <div class="containerTitle">Power</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="power-12" id="power-12-on" value="on">
+              <label for="power-12-on">On</label>
+              <input type="radio" name="power-12" id="power-12-off" value="off" checked="checked">
+              <label for="power-12-off">Off</label>
+            </fieldset>
+          </div>
+          <div  class='muteContainer'>
+            <div class="containerTitle">Mute</div>
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <input type="radio" name="mute-12" id="mute-12-on" value="on">
+              <label for="mute-12-on">On</label>
+              <input type="radio" name="mute-12" id="mute-12-off" value="off" checked="checked">
+              <label for="mute-12-off">Off</label>
+            </fieldset>
+          </div>
+          <div class='inputContainer'>
+            <select name="input-12" id="input-12" data-mini="true">
+              <option value="1">Input 1</option>
+              <option value="2">Input 2</option>
+              <option value="3">Input 3</option>
+              <option value="4">Input 4</option>
+              <option value="5">Input 5</option>
+              <option value="6">Input 6</option>
+              <option value="7">Input 7</option>
+              <option value="8">Input 8</option>
+              <option value="9">Input 9</option>
+              <option value="10">Input 10</option>
+              <option value="11">Input 11</option>
+              <option value="12">Input 12</option>
+            </select>
+          </div>
+          <div class='title' id='title-12'></div>
+          <div class='clear'></div>
+          <div class='volumeContainer'>
+            <input type="range" name="volume-12" id="volume-12" min="0" max="100" value="50">
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </body>
+</html>
