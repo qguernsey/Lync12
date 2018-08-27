@@ -85,6 +85,9 @@ var audio = {
     $('.powerContainer').bind('change', this.changePower.bind(this));
     $('input[type=number]').bind('slidestop', this.changeVolume.bind(this));
     $('select').bind('change', this.changeInput.bind(this));
+    $("#globalSettings").click(function(){
+        $("#globalSettingsModal").modal({backdrop: "static"});
+    });
   },
   disableVolume: function(zoneId) {
     console.log("disable", zoneId);
