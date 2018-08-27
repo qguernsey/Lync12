@@ -4,16 +4,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="./audio.js"></script>
     <link rel="stylesheet" media="screen and (max-device-width: 480px) and (orientation: portrait)" href="mobile-portrait.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 480px) and (orientation: landscape)" href="mobile-landscape.css" />
     <link rel="stylesheet" media="screen and (min-device-width: 800px)" href="screen.css" />
   </head>
   <body>
+    <form>
     <div data-role="page" class="full-width-slider">
-      <form>
+
+      <div class="globalSettings">
+        <button type = "button" class="btn btn-info btn-md" id="globalSettings">Open Global Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="globalSettingsModal" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h4 class="modal-title">Global System Settings</h4>
+                </div>
+                <div class="modal-body">
+                          <div id="zone-0" class="zone noDivider off">
+                              <div class='powerContainer'>
+                                <div class="containerTitle">Power All</div>
+                                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                  <input type="radio" name="power-0" id="power-0-on" value="on" checked="checked">
+                                  <label for="power-0-on">On</label>
+                                  <input type="radio" name="power-0" id="power-0-off" value="off">
+                                  <label for="power-0-off">Off</label>
+                                </fieldset>
+                            </div>
+                          </div>
+
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+      </div>
         <!-- ========================================= -->
         <div id="zone-1" class="zone noDivider off">
           <div class='powerContainer'>

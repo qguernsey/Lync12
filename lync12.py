@@ -213,6 +213,14 @@ class Lync12Command(object):
         self.zone_states = []
         self.wait_time = wait_time
 
+    MP3_NULL = 0
+    MP3_FB = 1
+    MP3_PLAY = 2
+    MP3_FF = 3
+    MP3_STOP = 4
+    MP3_REPEAT_ON = 5
+    MP3_REPEAT_OFF = 6
+
     def execute(self, ser):
         """ execute the command and returns the result """
         ser.write(self.command)
@@ -280,7 +288,7 @@ class Lync12Command(object):
                 # print(str(self.result[i+4:i + 15]))
                 sname = Lync12Lookup.get_string_name(self.result[i + 4:i + 15])
                 self.zone_states[zone - 1].state["inputs"].append(sname)
-                print("Source " + str(zone) + " Name-" + sname)
+                # TODO: Make debug print("Source " + str(zone) + " Name-" + sname)
                 i += 18
                 continue
             # Zone Name
@@ -438,10 +446,6 @@ class Lync12Command(object):
         print("Volume controller: ")
         print(int(volume))
 
-        # volume = 0x43 + int(math.floor(volume_int))
-        # volume = int(math.floor(volume_int))
-        # print(volume)
-        # print(ByteUtils.b2h(volume))
         command = (
           "02",  # head
           "00",  # reserved
@@ -506,6 +510,42 @@ class Lync12Command(object):
           "00",  # checksum
         )
         return Lync12Command(command, 14, "z"+str(zone)+" mute")
+
+    @staticmethod
+    def mp3_action(action):
+        b_data = "00"
+        c_data = "00"
+        if action >= Lync12Command.MP3_REPEAT_ON:
+            c_data = "01"
+            if action == Lync12Command.MP3_REPEAT_ON:
+                b_data = "FF"
+            elif action == Lync12Command.MP3_REPEAT_OFF:
+                b_data = "00"
+            else:
+                print("shouldn't be here bad MP3 action repeat")
+        elif 0 < action < Lync12Command.MP3_REPEAT_ON:
+            c_data = "04"
+            if action == Lync12Command.MP3_FB:
+                b_data = "0C"
+            elif action == Lync12Command.MP3_PLAY:
+                b_data = "0B"
+            elif action == Lync12Command.MP3_FF:
+                b_data = "0A"
+            elif action == Lync12Command.MP3_STOP:
+                b_data = "0D"
+            else:
+                b_data = "00"
+                print("shouldn't be here bad MP3 actions")
+
+        command = (
+          "02",  # head
+          "00",  # reserved
+          "00",  # zone 00
+          c_data,  # command
+          b_data,  # data
+          "00",  # checksum
+        )
+        return Lync12Command(command, 14, "MP3 Command " + str(action))
 
     """
 if __name__ == '__main__':

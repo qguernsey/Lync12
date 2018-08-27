@@ -71,3 +71,19 @@
       .full-width-slider .ui-slider-track {
         margin-left: 15px;
       }
+      /* The Modal (background) */
+      .globalSettings {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #aaa;
+      }
+
+      .modal-header, h4, .close {
+        background-color: #5cb85c;
+        color:white !important;
+        text-align: center;
+        font-size: 30px;
+      }
+      .modal-footer {
+        background-color: #0080ff;
+  }

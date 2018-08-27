@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from lync12 import Lync12Command as Lync12
 from flask_cors import CORS  # The typical way to import flask_cors
 from flask import request
@@ -71,7 +71,7 @@ def zone_mute(zone_id):
     return jsonify(execute_command(command))
 
 
-@app.route('/zone/all/power', methods=['PUT'])
+@app.route('/zone/all/power', methods=['PUT', 'GET'])
 def zone_power_all():
     if request.values['power'] == '1':
         power = True
@@ -85,35 +85,42 @@ def zone_power_all():
 
 @app.route('/zone/<int:zone_id>/volume', methods=['PUT'])
 def zone_volume(zone_id):
-    # command = lync12.get_zone_state()
-    # zone_state = execute_command(command)
-    # current_volume = zone_state[zone_id]['volume']
     volume = int(request.values['volume'])
     print('volume from web: ')
     print(volume)
-    # print('volume from control: ')
-    # print(current_volume)
+
     command = Lync12.set_volume(zone_id, volume)
-    zone_state = execute_command(command)
-    # if current_volume < volume:
-    #     while current_volume < volume:
-    #         command = lync12.vol_up(zone_id)
-    #         zone_state = execute_command(command)
-    #          current_volume = zone_state[zone_id]['volume']
-    #         # print "+", current_volume, "desired", volume
-    # else:
-    #     while current_volume > volume:
-    #         command = lync12.vol_down(zone_id)
-    #         zone_state = execute_command(command)
-    #         current_volume = zone_state[zone_id]['volume']
-    #        # print "-", current_volume, "desired", volume
-    return jsonify(zone_state)
+    return jsonify(execute_command(command))
 
 
 @app.route('/zone/<int:zone_id>/input', methods=['PUT'])
 def zone_input(zone_id):
     input_src = request.values['input']
     command = Lync12.set_input(zone_id, input_src)
+    return jsonify(execute_command(command))
+
+
+@app.route('/mp3/<string:action>', methods=['PUT', 'GET'])
+def mp3_controls(action):
+    action_id = Lync12.MP3_NULL
+    if not action:
+        abort(404)
+    elif action == 'play':
+        action_id = Lync12.MP3_PLAY
+    elif action == 'stop':
+        action_id = Lync12.MP3_STOP
+    elif action == 'repeatoff':
+        action_id = Lync12.MP3_REPEAT_OFF
+    elif action == 'repeaton':
+        action_id = Lync12.MP3_REPEAT_ON
+    elif action == 'forward':
+        action_id = Lync12.MP3_FF
+    elif action == 'back' or action == 'reverse':
+        action_id = Lync12.MP3_FB
+    else:
+        print('MP3 URL error: ' + action)
+
+    command = Lync12.mp3_action(action_id)
     return jsonify(execute_command(command))
 
 
