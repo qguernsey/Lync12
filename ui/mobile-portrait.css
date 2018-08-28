@@ -20,6 +20,10 @@
         border-color: #ddd;
       }
 
+      .ui-radio input {
+        margin-top: -11px;
+      }
+
       .zone {
         margin-top: 12px;
         padding-top: 12px;
