@@ -17,4 +17,4 @@ print result.json_data()
 
 ## Files
 App.py is a simple Flask app that provides a REST API to control the different zones. I run this app on port 8080 using supervisord.
-audio.html and audio.js Provide a web interface that will use the REST API to control the speakers. Input names are currently generic and hardcoded.  Zone Names are pulled dynamically from the controller.
+audio.html and audio.js Provide a web interface that will use the REST API to control the speakers. Source Input Names are dynamically pulled from the controller.  Zone Names are also pulled dynamically from the controller.
