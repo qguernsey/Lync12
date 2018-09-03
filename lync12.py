@@ -238,7 +238,7 @@ class Lync12Command(object):
         # 6 is the shortest return command
         while i+6 <= len(self.result):
             # Packet peek
-            # print( str(self.result[i:i+20]))
+            print(str(self.result[i:i+20]))
             # verify header and reserve bit
             # zone = 0
             # command = 0
@@ -315,14 +315,14 @@ class Lync12Command(object):
             # MP3 On
             elif command == 0x13:
                 print("MP3 On")
-                print(str(self.result[i:i + 6]))
-                i += 6
+                print(str(self.result[i:i + 22]))
+                i += 22
                 continue
             # MP3 Off
             elif command == 0x14:
                 print("MP3 off")
-                # print(str(self.result[i:i + 22]))
-                print(str(self.result[i:i + 200]))
+                print(str(self.result[i:i + 22]))
+                # print(str(self.result[i:i + 200]))
                 i += 22
                 continue
             elif command == 0x1b:
