@@ -179,7 +179,7 @@ class ZoneState(object):
 
         # checksum
         self.state["checksum"] = data[13]
-        self.state["inputs"] = []
+        self.state["inputs"] = {}
 
     def clone_state(self):
         return copy.copy(self.state)
@@ -238,7 +238,7 @@ class Lync12Command(object):
         # 6 is the shortest return command
         while i+6 <= len(self.result):
             # Packet peek
-            print(str(self.result[i:i+20]))
+            # print(str(self.result[i:i+20]))
             # verify header and reserve bit
             # zone = 0
             # command = 0
@@ -287,7 +287,8 @@ class Lync12Command(object):
                 # print("Zone Source Name")
                 # print(str(self.result[i+4:i + 15]))
                 sname = Lync12Lookup.get_string_name(self.result[i + 4:i + 15])
-                self.zone_states[zone - 1].state["inputs"].append(sname)
+                source_id = len(self.zone_states[zone - 1].state["inputs"])
+                self.zone_states[zone - 1].state["inputs"][str(source_id+1)] = sname
                 # TODO: Make debug print("Source " + str(zone) + " Name-" + sname)
                 i += 18
                 continue
