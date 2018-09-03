@@ -79,15 +79,28 @@ var audio = {
       audio.updateState(data);
     });
   },
+    changeMP3: function(event) {
+    console.log('input', arguments);
+    console.log('value', event.target)
+    var value = event.target.value;
+    $.ajax({
+      url: 'http://'+window.location.hostname+':8080/mp3/'+value,
+      type: 'PUT',
+      data: {input: event.target.value}
+    }).done(function(data) {
+      audio.updateState(data);
+    });
+  },
   bindEvents: function() {
     this.boundEvents = true;
     $('.muteContainer').bind('change', this.changeMute.bind(this));
     $('.powerContainer').bind('change', this.changePower.bind(this));
     $('input[type=number]').bind('slidestop', this.changeVolume.bind(this));
     $('select').bind('change', this.changeInput.bind(this));
-    $("#globalSettings").click(function(){
-        $("#globalSettingsModal").modal({backdrop: "static"});
+    $('#globalSettings').click(function(){
+        $('#globalSettingsModal').modal({backdrop: 'static'});
     });
+    $('.mp3-player').bind('click', this.changeMP3.bind(this));
   },
   disableVolume: function(zoneId) {
     console.log("disable", zoneId);
