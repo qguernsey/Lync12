@@ -136,6 +136,12 @@ var audio = {
         $('#power-'+i+'-on').prop('checked', false).checkboxradio('refresh');
         $('#power-'+i+'-off').prop('checked', true).checkboxradio('refresh');
       }
+      $.each(s.inputs, function(key, value) {
+         $('#input-'+i)
+           .append($("<option></option>")
+           .attr("value",key)
+           .text(value));
+          });
       $('#input-'+i)[0].selectedIndex = s.input - 1;
       $('#input-'+i).selectmenu(enabled).selectmenu('refresh');
 
