@@ -9,12 +9,12 @@ import json
 class LyncConnector(object):
     def __init__(self, host, port):
         self.host = host
-        self.port = port
+        self.port = str(port)
         self.secure = False
         self.username = ''
         self.password = ''
         self.__status_update_time = datetime.datetime(1970, 1, 1, 0, 0)
-        self.__current_status = ''
+        self.__current_status = 'not init-ed'
         self.__cache_timeout = 15
 
     def setup(self, username, password):
@@ -23,7 +23,9 @@ class LyncConnector(object):
         self.password = password
 
     def __do_put(self, uri, data):
-        r = requests.put('http://'+self.host+':'+self.port+'/'+uri, data)
+        url = 'http://' + self.host + ':' + self.port + uri
+        # print(url)
+        r = requests.put(url, data)
         return_code = r.status_code
         if return_code == 200:
             return True
@@ -31,7 +33,9 @@ class LyncConnector(object):
             return False
 
     def __do_post(self, uri, data):
-        r = requests.post('http://'+self.host+':'+self.port+'/'+uri, data)
+        url = 'http://' + self.host + ':' + self.port + uri
+        # print(url)
+        r = requests.post(url, data)
         return_code = r.status_code
         if return_code == 200:
             return True
@@ -39,16 +43,18 @@ class LyncConnector(object):
             return False
 
     def __do_get(self, uri):
-        r = requests.get('http://'+self.host+':'+self.port+'/'+uri)
+        url = 'http://' + self.host + ':' + self.port + uri
+        # print(url)
+        r = requests.get(url)
         return_code = r.status_code
         if return_code != 200:
             return 'Error'
         else:
-            return r
+            return r.text
 
     def get_status(self):
         """Get Controller Status.  Returns a JSON"""
-        print('Getting Status')
+        # print('Getting Status')
         current_time = datetime.datetime.now()
         run_time = self.__status_update_time + datetime.timedelta(seconds=self.__cache_timeout)
         if current_time > run_time:

@@ -32,14 +32,17 @@ def index():
 
 @app.route('/status')
 def status():
-    current_time = datetime.datetime.now()
-    time_diff = __status_update_time - current_time
     global __dirty_bit
     global __json_cache
     global __cache_timeout
-    if __dirty_bit or datetime.timedelta(seconds=__cache_timeout) < time_diff:
+    global __status_update_time
+    current_time = datetime.datetime.now()
+    run_time = __status_update_time + datetime.timedelta(seconds=__cache_timeout)
+    if __dirty_bit or run_time < current_time:
+        print('refreshing status')
         command = Lync12.get_zone_state()
         __json_cache = execute_command(command)
+        __status_update_time = datetime.datetime.now()
     return jsonify(__json_cache)
 
 
