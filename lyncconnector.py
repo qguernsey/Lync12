@@ -95,3 +95,8 @@ class LyncConnector(object):
         # _LOGGER.debug("Setting Zone %s to source %s", zone_id, source_id)
         data = {'input': source_id}
         return self.__do_put('/zone/' + str(zone_id) + '/input', data)
+
+    def set_zone_volume(self, zone_id, volume):
+        """"Set Zone Volume"""
+        data = {'volume': volume}
+        return self.__do_put('/zone/' + str(zone_id) + '/volume', data)
