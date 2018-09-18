@@ -43,6 +43,7 @@ def status():
         command = Lync12.get_zone_state()
         __json_cache = execute_command(command)
         __status_update_time = datetime.datetime.now()
+        __dirty_bit = False
     return jsonify(__json_cache)
 
 
