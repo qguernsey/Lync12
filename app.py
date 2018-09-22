@@ -128,6 +128,33 @@ def zone_input(zone_id):
     return jsonify(execute_command(command))
 
 
+@app.route('/zone/<int:zone_id>/balance', methods=['PUT', 'GET'])
+def zone_balance(zone_id):
+    balance_val = request.values['balance']
+    command = Lync12.set_balance(zone_id, balance_val)
+    global __dirty_bit
+    __dirty_bit = True
+    return jsonify(execute_command(command))
+
+
+@app.route('/zone/<int:zone_id>/treble', methods=['PUT', 'GET'])
+def zone_treble(zone_id):
+    treble_val = request.values['treble']
+    command = Lync12.set_balance(zone_id, treble_val)
+    global __dirty_bit
+    __dirty_bit = True
+    return jsonify(execute_command(command))
+
+
+@app.route('/zone/<int:zone_id>/base', methods=['PUT', 'GET'])
+def zone_base(zone_id):
+    base_val = request.values['base']
+    command = Lync12.set_balance(zone_id, base_val)
+    global __dirty_bit
+    __dirty_bit = True
+    return jsonify(execute_command(command))
+
+
 @app.route('/mp3/<string:action>', methods=['PUT', 'GET'])
 def mp3_controls(action):
     action_id = Lync12.MP3_NULL
