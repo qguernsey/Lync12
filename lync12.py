@@ -77,22 +77,47 @@ class ByteUtils:
 class Lync12Lookup:
 
     @staticmethod
+    def valid_tone(b):
+        if b < -10:
+            return -10
+        elif b > 10:
+            return 10
+        else:
+            return b
+
+    @staticmethod
     def tone_adjustment(v):
         if v == 0x00:
             return 0
-        if v < 0x0B:
-            return int(v, 16)
-        if v > 0x0B:
-            return 0
+        if v & 0b10000000:
+            # negative number
+            return Lync12Lookup.valid_tone(v-256)
+        else:
+            # positive number
+            return Lync12Lookup.valid_tone(v)
+
+    @staticmethod
+    def valid_balance(b):
+        if b < -18:
+            return -18
+        elif b > 18:
+            return 18
+        else:
+            return b
 
     @staticmethod
     def balance_adjustment(v):
+        # print('balance')
+        # print(v)
+        # balanced
         if v == 0x00:
             return 0
-        if v < 0x13:
-            return int(v, 16)
-        if v > 0x14:
-            return 0
+        if v & 0b10000000:
+            # negative number
+            return Lync12Lookup.valid_balance(v-256)
+        else:
+            # positive number
+            return Lync12Lookup.valid_balance(v)
 
     @staticmethod
     def get_string_name(a):
@@ -121,14 +146,14 @@ class ZoneState(object):
         self.command = data[3]
         self.state = collections.OrderedDict()
         if data[3] == 5:
-            # Data1 - general state
+            # General state
             # print(type(data[4]))
             # print(bin(data[4]))
             self.state["power"] = True if data[4] & 0b00000001 else False
             self.state["mute"] = True if data[4] & 0b00000010 else False
             self.state["dnd"] = True if data[4] & 0b00000100 else False
 
-            # Data2- Party Mode, all on/off
+            # Party Mode, all on/off
             self.state["party"] = True if data[5] & 0b00100000 else False
             self.state["allon"] = True if data[5] & 0b10000000 else False
             self.state["alloff"] = True if data[5] & 0b01000000 else False
@@ -141,25 +166,10 @@ class ZoneState(object):
 
             # self.state["party_input"] = data[4] & 0b00000111
 
-            # Data2 - keypad led indicator
-            # self.state["mode_led"] = data[5] & 0b01111111
-
-            # Data3 - inputs?
-            # self.state["led_input"] = data[6] & 0b00111111
-            # self.state["power3"] = True if data[6] & 0b10000000 else False
-            # self.state["input1"] = True if data[6] & 0b00100000 else False
-            # self.state["input2"] = True if data[6] & 0b00010000 else False
-            # self.state["input3"] = True if data[6] & 0b00001000 else False
-            # self.state["input4"] = True if data[6] & 0b00000100 else False
-            # self.state["input5"] = True if data[6] & 0b00000010 else False
-            # self.state["input6"] = True if data[6] & 0b00000001 else False
-
-            # Data4 - reserved
-
-            # Data5 - input port
+            # Input Source
             self.state["input"] = data[8] + 1
 
-            # Data6 - volume (range 195-255; 0 == max)
+            # Volume (range 195-255; 0 == max)
             volume = data[9]
             if volume == 0:
                 volume = 256
@@ -167,14 +177,13 @@ class ZoneState(object):
             volume = int((volume - 195.0) / 61.0 * 100.0)
             self.state["volume"] = volume
 
-            # Don't know what the codes are for these.  In the UI but not on the hex code sheet.
-            # Data7 - treble
+            # Treble
             self.state["treble"] = Lync12Lookup.tone_adjustment(data[10])
 
-            # Data8 - bass
+            # Bass
             self.state["bass"] = Lync12Lookup.tone_adjustment(data[11])
 
-            # Data9 - balance
+            # Zone Balance
             self.state["balance"] = Lync12Lookup.balance_adjustment(data[12])
 
         # checksum
@@ -511,6 +520,51 @@ class Lync12Command(object):
           "00",  # checksum
         )
         return Lync12Command(command, 14, "z"+str(zone)+" mute")
+
+    @staticmethod
+    def set_balance(zone, balance):
+        bal_int = Lync12Lookup.valid_balance(balance)
+        # 0x80 = int 128
+        b_data = ByteUtils.b2h(128 + bal_int)
+        command = (
+            "02",  # head
+            "00",  # reserved
+            ByteUtils.b2h(zone),  # zone
+            "16",  # command
+            b_data,  # data
+            "00",  # checksum
+        )
+        return Lync12Command(command, 14, "z"+str(zone)+" balance")
+
+    @staticmethod
+    def set_treble(zone, treble):
+        treble_int = Lync12Lookup.valid_tone(treble)
+        # 0x80 = int 128
+        b_data = ByteUtils.b2h(128 + treble_int)
+        command = (
+            "02",  # head
+            "00",  # reserved
+            ByteUtils.b2h(zone),  # zone
+            "17",  # command
+            b_data,  # data
+            "00",  # checksum
+        )
+        return Lync12Command(command, 14, "z" + str(zone) + " treble")
+
+    @staticmethod
+    def set_base(zone, base):
+        base_int = Lync12Lookup.valid_tone(base)
+        # 0x80 = int 128
+        b_data = ByteUtils.b2h(128 + base_int)
+        command = (
+            "02",  # head
+            "00",  # reserved
+            ByteUtils.b2h(zone),  # zone
+            "18",  # command
+            b_data,  # data
+            "00",  # checksum
+        )
+        return Lync12Command(command, 14, "z" + str(zone) + " treble")
 
     @staticmethod
     def mp3_action(action):
