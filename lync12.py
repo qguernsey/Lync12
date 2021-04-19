@@ -78,9 +78,9 @@ class Lync12Lookup:
 
     @staticmethod
     def valid_tone(b):
-        if b < -10:
+        if b <= -10:
             return -10
-        elif b > 10:
+        elif b >= 10:
             return 10
         else:
             return b
@@ -90,31 +90,50 @@ class Lync12Lookup:
         if v == 0x00:
             return 0
         if v & 0b10000000:
+            return 0xFF + v + 1
+        else:
+            return v
+
+    @staticmethod
+    def tone_read(v):
+        # 0x80 = int 128
+        print(v)
+        if v == 0x00:
+            return 0
+        if v & 0b10000000:
             # negative number
-            return Lync12Lookup.valid_tone(v-256)
+            return Lync12Lookup.valid_tone(0xFF + v)
         else:
             # positive number
             return Lync12Lookup.valid_tone(v)
 
     @staticmethod
     def valid_balance(b):
-        if b < -18:
+        if b <= -18:
             return -18
-        elif b > 18:
+        elif b >= 18:
             return 18
         else:
             return b
 
     @staticmethod
     def balance_adjustment(v):
-        # print('balance')
-        # print(v)
+        if v == 0x00:
+            return 0
+        if v & 0b10000000:
+            return 0xFF + v + 1
+        else:
+            return v
+
+    @staticmethod
+    def balance_read(v):
         # balanced
+        print(v)
         if v == 0x00:
             return 0
         if v & 0b10000000:
             # negative number
-            return Lync12Lookup.valid_balance(v-256)
+            return Lync12Lookup.valid_balance(0xFF + v)
         else:
             # positive number
             return Lync12Lookup.valid_balance(v)
@@ -178,13 +197,13 @@ class ZoneState(object):
             self.state["volume"] = volume
 
             # Treble
-            self.state["treble"] = Lync12Lookup.tone_adjustment(data[10])
+            self.state["treble"] = Lync12Lookup.tone_read(data[10])
 
             # Bass
-            self.state["bass"] = Lync12Lookup.tone_adjustment(data[11])
+            self.state["bass"] = Lync12Lookup.tone_read(data[11])
 
             # Zone Balance
-            self.state["balance"] = Lync12Lookup.balance_adjustment(data[12])
+            self.state["balance"] = Lync12Lookup.balance_read(data[12])
 
         # checksum
         self.state["checksum"] = data[13]
@@ -232,9 +251,15 @@ class Lync12Command(object):
 
     def execute(self, ser):
         """ execute the command and returns the result """
-        ser.write(self.command)
         print(str(self.command))
+        ser.write(self.command)
         self.result = ser.read(self.rx_bytes)
+
+        print(str(self.result))
+
+        if self.command == "model":
+            return self.result
+
         self._parse()
         if self.wait_time > 0:
             time.sleep(self.wait_time)
@@ -294,7 +319,7 @@ class Lync12Command(object):
             # Zone Source Name
             elif command == 0x0E:
                 # print("Zone Source Name")
-                # print(str(self.result[i+4:i + 15]))
+                # print(str(self.result[i+4:i + 15]))c
                 sname = Lync12Lookup.get_string_name(self.result[i + 4:i + 15])
                 source_id = len(self.zone_states[zone - 1].state["inputs"])
                 self.zone_states[zone - 1].state["inputs"][str(source_id+1)] = sname
@@ -340,6 +365,11 @@ class Lync12Command(object):
                 print(str(self.result[i:i + 14]))
                 i += 14
                 continue
+            elif command == 0x1e:
+                print("Successful Zone Default")
+                print(str(self.result[i:i + 40]))
+                i += 14
+                continue
             else:
                 print("hmmm.. shouldn't be here")
                 print(str(self.result[i:i + 40]))
@@ -371,7 +401,7 @@ class Lync12Command(object):
             "00",  # data
             "00",  # checksum
             )
-        return Lync12Command(command, 6, "model")
+        return Lync12Command(command, 14, "model")
 
     @staticmethod
     def get_zone_state():
@@ -523,9 +553,8 @@ class Lync12Command(object):
 
     @staticmethod
     def set_balance(zone, balance):
-        bal_int = Lync12Lookup.valid_balance(balance)
-        # 0x80 = int 128
-        b_data = ByteUtils.b2h(128 + bal_int)
+        bal_int = Lync12Lookup.valid_balance(int(balance))
+        b_data = ByteUtils.b2h(Lync12Lookup.balance_adjustment(bal_int))
         command = (
             "02",  # head
             "00",  # reserved
@@ -538,9 +567,8 @@ class Lync12Command(object):
 
     @staticmethod
     def set_treble(zone, treble):
-        treble_int = Lync12Lookup.valid_tone(treble)
-        # 0x80 = int 128
-        b_data = ByteUtils.b2h(128 + treble_int)
+        treble_int = Lync12Lookup.valid_tone(int(treble))
+        b_data = ByteUtils.b2h(Lync12Lookup.tone_adjustment(treble_int))
         command = (
             "02",  # head
             "00",  # reserved
@@ -552,10 +580,9 @@ class Lync12Command(object):
         return Lync12Command(command, 14, "z" + str(zone) + " treble")
 
     @staticmethod
-    def set_base(zone, base):
-        base_int = Lync12Lookup.valid_tone(base)
-        # 0x80 = int 128
-        b_data = ByteUtils.b2h(128 + base_int)
+    def set_bass(zone, bass):
+        bass_int = Lync12Lookup.valid_tone(int(bass))
+        b_data = ByteUtils.b2h(Lync12Lookup.tone_adjustment(bass_int))
         command = (
             "02",  # head
             "00",  # reserved
@@ -564,7 +591,7 @@ class Lync12Command(object):
             b_data,  # data
             "00",  # checksum
         )
-        return Lync12Command(command, 14, "z" + str(zone) + " treble")
+        return Lync12Command(command, 14, "z" + str(zone) + " bass")
 
     @staticmethod
     def mp3_action(action):
