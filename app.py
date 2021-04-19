@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, abort
 from lync12 import Lync12Command as Lync12
 from flask_cors import CORS  # The typical way to import flask_cors
-from flask import request
+from flask import request, send_from_directory
 import serial
 import datetime
 
@@ -63,6 +63,11 @@ def status():
 def model():
     command = Lync12.get_model()
     return jsonify(execute_command(command))
+
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
 
 
 @app.route('/zone/<int:zone_id>/power', methods=['PUT'])
@@ -140,16 +145,16 @@ def zone_balance(zone_id):
 @app.route('/zone/<int:zone_id>/treble', methods=['PUT', 'GET'])
 def zone_treble(zone_id):
     treble_val = request.values['treble']
-    command = Lync12.set_balance(zone_id, treble_val)
+    command = Lync12.set_treble(zone_id, treble_val)
     global __dirty_bit
     __dirty_bit = True
     return jsonify(execute_command(command))
 
 
-@app.route('/zone/<int:zone_id>/base', methods=['PUT', 'GET'])
+@app.route('/zone/<int:zone_id>/bass', methods=['PUT', 'GET'])
 def zone_base(zone_id):
-    base_val = request.values['base']
-    command = Lync12.set_balance(zone_id, base_val)
+    bass_val = request.values['bass']
+    command = Lync12.set_bass(zone_id, bass_val)
     global __dirty_bit
     __dirty_bit = True
     return jsonify(execute_command(command))

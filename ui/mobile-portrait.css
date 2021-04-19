@@ -69,6 +69,10 @@
         float: right;
       }
 
+      .settings {
+        display: none;
+      }
+
       /* Hide the number input */
       .full-width-slider .ui-slider input {
         display: none;

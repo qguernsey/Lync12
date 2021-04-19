@@ -26,7 +26,7 @@
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <button type="button" class="close" data-dismiss="modal">Close</button>
                   <h4 class="modal-title">Global System Settings</h4>
                 </div>
                 <div class="modal-body">
@@ -42,7 +42,6 @@
                             </div>
                           </div>
 
-
                 </div>
                   <div class="mp3-player">
                       <button type="button" value="reverse" class="mp3-reverse">Reverse</button>
@@ -56,10 +55,10 @@
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </div>
-
             </div>
           </div>
       </div>
+
         <!-- ========================================= -->
         <div id="zone-1" class="zone noDivider off">
           <div class='powerContainer'>
@@ -80,14 +79,46 @@
               <label for="mute-1-off">Off</label>
             </fieldset>
           </div>
-          <div  class='inputContainer'>
-            <select name="input-1" id="input-1" data-mini="true" disabled="true">
+          <div class='inputContainer'>
+            <div class ="inputSelector">
+            <select name="input-1" id="input-1" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-1" name="settings-1" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-1" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-1" id="balance-1" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-1" id="treble-1" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-1" id="bass-1" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
           <div class='title' id='title-1'>Loading...</div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-1" id="volume-1" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-1" id="volume-1" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -113,13 +144,45 @@
           </div>
 
           <div class='inputContainer'>
-            <select name="input-2" id="input-2" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-2" id="input-2" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-2" name="settings-2" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-2" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-2" id="balance-2" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-2" id="treble-2" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-2" id="bass-2" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
           <div class='title' id='title-2'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-2" id="volume-2" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-2" id="volume-2" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -144,13 +207,45 @@
             </fieldset>
           </div>
           <div class='inputContainer'>
-            <select name="input-3" id="input-3" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-3" id="input-3" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-3" name="settings-3" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-3" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-3" id="balance-3" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-3" id="treble-3" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-3" id="bass-3" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
           <div class='title' id='title-3'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-3" id="volume-3" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-3" id="volume-3" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -174,14 +269,48 @@
               <label for="mute-4-off">Off</label>
             </fieldset>
           </div>
+
           <div class='inputContainer'>
-            <select name="input-4" id="input-4" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-4" id="input-4" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-4" name="settings-4" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-4" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-4" id="balance-4" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-4" id="treble-4" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-4" id="bass-4" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
           <div class='title' id='title-4'></div>
+
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-4" id="volume-4" min="0" max="100" value="50" disabled="true">
+            <input type="range" class="volumeSlider" name="volume-4" id="volume-4" min="0" max="100" value="50" step="5" disabled>
           </div>
         </div>
 
@@ -206,13 +335,46 @@
             </fieldset>
           </div>
           <div class='inputContainer'>
-            <select name="input-5" id="input-5" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-5" id="input-5" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-5" name="settings-5" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-5" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-5" id="balance-5" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-5" id="treble-5" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-5" id="bass-5" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
           <div class='title' id='title-5'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-5" id="volume-5" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-5" id="volume-5" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -236,14 +398,48 @@
               <label for="mute-6-off">Off</label>
             </fieldset>
           </div>
+
           <div class='inputContainer'>
-            <select name="input-6" id="input-6" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-6" id="input-6" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-6" name="settings-6" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-6" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-6" id="balance-6" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-6" id="treble-6" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-6" id="bass-6" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
           <div class='title' id='title-6'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-6" id="volume-6" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-6" id="volume-6" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -267,14 +463,48 @@
               <label for="mute-7-off">Off</label>
             </fieldset>
           </div>
+
           <div class='inputContainer'>
-            <select name="input-7" id="input-7" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-7" id="input-7" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-7" name="settings-7" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-7" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-7" id="balance-7" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-7" id="treble-7" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-7" id="bass-7" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
           <div class='title' id='title-7'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-7" id="volume-7" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-7" id="volume-7" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -298,14 +528,49 @@
               <label for="mute-8-off">Off</label>
             </fieldset>
           </div>
+
           <div class='inputContainer'>
-            <select name="input-8" id="input-8" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-8" id="input-8" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-8" name="settings-8" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-8" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-8" id="balance-8" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-8" id="treble-8" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-8" id="bass-8" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
+
           <div class='title' id='title-8'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-8" id="volume-8" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-8" id="volume-8" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -329,14 +594,49 @@
               <label for="mute-9-off">Off</label>
             </fieldset>
           </div>
+
           <div class='inputContainer'>
-            <select name="input-9" id="input-9" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-9" id="input-9" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-9" name="settings-9" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-9" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-9" id="balance-9" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-9" id="treble-9" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-9" id="bass-9" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
+
           <div class='title' id='title-9'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-9" id="volume-9" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-9" id="volume-9" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -360,14 +660,49 @@
               <label for="mute-10-off">Off</label>
             </fieldset>
           </div>
+
           <div class='inputContainer'>
-            <select name="input-10" id="input-10" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-10" id="input-10" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-10" name="settings-10" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-10" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-10" id="balance-10" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-10" id="treble-10" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-10" id="bass-10" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
+
           <div class='title' id='title-10'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
-            <input type="range" name="volume-10" id="volume-10" min="0" max="100" value="50" disabled="true">
+            <input type="range" name="volume-10" id="volume-10" min="0" max="100" value="50" disabled>
           </div>
         </div>
 
@@ -392,9 +727,42 @@
             </fieldset>
           </div>
           <div class='inputContainer'>
-            <select name="input-11" id="input-11" data-mini="true" disabled="true">
+            <div class ="inputSelector">
+            <select name="input-11" id="input-11" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-11" name="settings-11" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-11" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-11" id="balance-11" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-11" id="treble-11" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-11" id="bass-11" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
           <div class='title' id='title-11'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
@@ -422,10 +790,45 @@
               <label for="mute-12-off">Off</label>
             </fieldset>
           </div>
+
           <div class='inputContainer'>
-            <select name="input-12" id="input-12" data-mini="true">
+            <div class ="inputSelector">
+            <select name="input-12" id="input-12" data-mini="true" disabled>
             </select>
+            </div>
+        <div class="settings">
+        <button type = "button" class="btn btn-info btn-md" id="settings-12" name="settings-12" disabled>Settings</button>
+    <!-- Modal -->
+          <div class="modal fade" id="settingsModal-12" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                </div>
+                <div class="modal-body">
+                              <div class="balanceContainer">
+                                <div class="containerTitle">Balance</div>
+                                <input type="range" class="balanceSlider" name="balance-12" id="balance-12" min="-18" max="18" value="0" step="3" disabled>
+                              </div>
+                                <div class="trebleContainer">
+                                <div class="containerTitle">Treble</div>
+                                <input type="range" class="trebleSlider" name="treble-12" id="treble-12" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                              <div class="baseContainer">
+                                <div class="containerTitle">Bass</div>
+                                <input type="range" class="bassSlider" name="bass-12" id="bass-12" min="-10" max="10" value="0" step="2" disabled>
+                              </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
+          </div>
+        </div>
+
+
           <div class='title' id='title-12'></div>
           <div class='clear'></div>
           <div class='volumeContainer'>
