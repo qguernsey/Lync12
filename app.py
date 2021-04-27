@@ -5,6 +5,7 @@ from flask_cors import CORS  # The typical way to import flask_cors
 from flask import request, send_from_directory
 import serial
 import datetime
+import logging
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -39,7 +40,7 @@ def status():
     current_time = datetime.datetime.now()
     run_time = __status_update_time + datetime.timedelta(seconds=__cache_timeout)
     if __dirty_bit or run_time < current_time:
-        print('refreshing status')
+        logging.debug('refreshing status')
         command = Lync12.get_zone_state()
         __json_cache = execute_command(command)
         __status_update_time = datetime.datetime.now()
@@ -76,7 +77,7 @@ def zone_power(zone_id):
         power = True
     else:
         power = False
-    print(str(zone_id) + " setting power to " + str(power))
+    logging.debug(str(zone_id) + " setting power to " + str(power))
 
     command = Lync12.set_power(zone_id, power)
     global __dirty_bit
@@ -90,7 +91,7 @@ def zone_mute(zone_id):
         power = True
     else:
         power = False
-    print(str(zone_id) + " setting mute to " + str(power))
+    logging.debug(str(zone_id) + " setting mute to " + str(power))
 
     command = Lync12.set_mute(zone_id, power)
     global __dirty_bit
@@ -104,7 +105,7 @@ def zone_power_all():
         power = True
     else:
         power = False
-    print("setting power to of all zones to " + str(power))
+    logging.debug("setting power to of all zones to " + str(power))
 
     command = Lync12.set_power(0, power)
     global __dirty_bit
@@ -114,10 +115,6 @@ def zone_power_all():
 
 @app.route('/zone/<int:zone_id>/volume', methods=['PUT'])
 def zone_volume(zone_id):
-    volume = int(request.values['volume'])
-    print('volume from web: ')
-    print(volume)
-
     command = Lync12.set_volume(zone_id, volume)
     global __dirty_bit
     __dirty_bit = True
@@ -178,7 +175,7 @@ def mp3_controls(action):
     elif action == 'back' or action == 'reverse':
         action_id = Lync12.MP3_FB
     else:
-        print('MP3 URL error: ' + action)
+        logging.error('MP3 URL error: ' + action)
 
     command = Lync12.mp3_action(action_id)
     global __dirty_bit
@@ -187,4 +184,5 @@ def mp3_controls(action):
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     app.run(port=8080, host='0.0.0.0')

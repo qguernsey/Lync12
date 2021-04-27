@@ -4,6 +4,9 @@ import collections
 import json
 import copy
 import math
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ByteUtils:
@@ -23,10 +26,10 @@ class ByteUtils:
     def diff(s1, s2, name1, name2):
         h1 = ByteUtils.s2hex(s1)
         h2 = ByteUtils.s2hex(s2)
-        print("1 (" + name1 + ") ")
-        print(h1)
-        print("2 (" + name2 + ") ")
-        print(h2)
+        logger.debug("1 (" + name1 + ") ")
+        logger.debug(h1)
+        logger.debug("2 (" + name2 + ") ")
+        logger.debug(h2)
         d = ""
         a1 = h1.split(":")
         a2 = h2.split(":")
@@ -38,11 +41,11 @@ class ByteUtils:
                     # d += ByteUtils.b2h(ByteUtils.h2b(a1[i]) - ByteUtils.h2b(a2[i]))
                     d += a1[i]
                 except IndexError:
-                    print(a1, a2)
+                    logger.error(a1, a2)
             else:
                 d += "--"
-        print("d ")
-        print(d)
+        logger.debug("d ")
+        logger.debug(d)
 
     @staticmethod
     def h2b(v):
@@ -96,8 +99,7 @@ class Lync12Lookup:
 
     @staticmethod
     def tone_read(v):
-        # 0x80 = int 128
-        print(v)
+        logger.debug("tone: %i ", v)
         if v == 0x00:
             return 0
         if v & 0b10000000:
@@ -127,8 +129,7 @@ class Lync12Lookup:
 
     @staticmethod
     def balance_read(v):
-        # balanced
-        print(v)
+        logger.debug("balance: %i", v)
         if v == 0x00:
             return 0
         if v & 0b10000000:
@@ -142,8 +143,7 @@ class Lync12Lookup:
     def get_string_name(a):
         name = []
         i = 0
-        # print("get name")
-        # print(a)
+        logger.debug("Zone Name %s", a)
         while i <= len(a) and a[i] != 0x00:
             name.append(int(a[i]))
             i += 1
@@ -251,11 +251,11 @@ class Lync12Command(object):
 
     def execute(self, ser):
         """ execute the command and returns the result """
-        print(str(self.command))
+        logger.debug(str(self.command))
         ser.write(self.command)
         self.result = ser.read(self.rx_bytes)
 
-        print(str(self.result))
+        logger.debug(str(self.result))
 
         if self.command == "model":
             return self.result
@@ -299,21 +299,21 @@ class Lync12Command(object):
 
             # Zone state
             if command == 0x05:
-                print("Zone State " + str(zone))
-                # print(str(self.result[i:i + 14]))
+                logger.debug("Zone State " + str(zone))
                 self.zone_states.append(ZoneState(self.result[i:i+14]))
                 i += 14
                 continue
             # Key Pad Exists
             elif command == 0x06:
-                print("Key Pad Command")
-                print(str(self.result[i:i + 14]))
+                # TODO: Need to build out key pad discovery
+                logger.debug("Key Pad Command")
+                logger.debug(str(self.result[i:i + 14]))
                 i += 14
                 continue
             # MP3 Play End Stop
             elif command == 0x09:
-                print("MP3 Stop")
-                print(str(self.result[i:i + 6]))
+                logger.debug("MP3 Stop")
+                logger.debug(str(self.result[i:i + 6]))
                 i += 6
                 continue
             # Zone Source Name
@@ -323,7 +323,7 @@ class Lync12Command(object):
                 sname = Lync12Lookup.get_string_name(self.result[i + 4:i + 15])
                 source_id = len(self.zone_states[zone - 1].state["inputs"])
                 self.zone_states[zone - 1].state["inputs"][str(source_id+1)] = sname
-                # TODO: Make debug print("Source " + str(zone) + " Name-" + sname)
+                logger.debug("Source " + str(zone) + " Name-" + sname)
                 i += 18
                 continue
             # Zone Name
@@ -332,47 +332,47 @@ class Lync12Command(object):
                 # print(str(self.result[i+4:i + 15]))
                 zname = Lync12Lookup.get_string_name(self.result[i+4:i + 15])
                 self.zone_states[zone-1].state["name"] = zname
-                print("Zone " + str(zone) + " Name-" + zname)
+                logger.debug("Zone " + str(zone) + " Name-" + zname)
                 i += 18
                 continue
             # MP3 File Name
             elif command == 0x11:
-                print("MP3 File Name")
-                print(str(self.result[i:i + 69]))
+                logger.debug("MP3 File Name")
+                logger.debug(str(self.result[i:i + 69]))
                 i += 69
                 continue
             # MP3 Artist Name
             elif command == 0x12:
-                print("MP3 Artist Name")
-                print(str(self.result[i:i + 69]))
+                logger.debug("MP3 Artist Name")
+                logger.debug(str(self.result[i:i + 69]))
                 i += 69
                 continue
             # MP3 On
             elif command == 0x13:
-                print("MP3 On")
-                print(str(self.result[i:i + 22]))
+                logger.debug("MP3 On")
+                logger.debug(str(self.result[i:i + 22]))
                 i += 22
                 continue
             # MP3 Off
             elif command == 0x14:
-                print("MP3 off")
-                print(str(self.result[i:i + 22]))
-                # print(str(self.result[i:i + 200]))
+                logger.debug("MP3 off")
+                logger.debug(str(self.result[i:i + 22]))
                 i += 22
                 continue
             elif command == 0x1b:
-                print("Error Code?")
-                print(str(self.result[i:i + 14]))
+                # TODO: Identify what entity errored Vol, Bal, Treb, Bass
+                logger.error("Error Setting Value")
+                logger.error(str(self.result[i:i + 14]))
                 i += 14
                 continue
             elif command == 0x1e:
-                print("Successful Zone Default")
-                print(str(self.result[i:i + 40]))
+                logger.debug("Successful Zone Default")
+                logger.debug(str(self.result[i:i + 40]))
                 i += 14
                 continue
             else:
-                print("hmmm.. shouldn't be here")
-                print(str(self.result[i:i + 40]))
+                logger.error("Unimplemented Return Command")
+                logger.error(str(self.result[i:i + 40]))
                 i += 1
 
     def debug(self):
@@ -471,7 +471,7 @@ class Lync12Command(object):
     @staticmethod
     def set_volume(zone, vol):
         volume_int = vol * .6
-        print("Volume panel: " + str(volume_int))
+        logger.debug("Volume panel: " + str(volume_int))
         # volume = 0
         if volume_int > 60:
             volume_int = 60
@@ -483,8 +483,7 @@ class Lync12Command(object):
         else:
             volume = 0xFF - (60 - int(math.floor(volume_int)))
 
-        print("Volume controller: ")
-        print(int(volume))
+        logger.debug("Volume controller: " + str(int(volume)))
 
         command = (
           "02",  # head
@@ -604,7 +603,7 @@ class Lync12Command(object):
             elif action == Lync12Command.MP3_REPEAT_OFF:
                 b_data = "00"
             else:
-                print("shouldn't be here bad MP3 action repeat")
+                logger.error("Unrecognized MP3 Repeat Command")
         elif 0 < action < Lync12Command.MP3_REPEAT_ON:
             c_data = "04"
             if action == Lync12Command.MP3_FB:
@@ -617,7 +616,7 @@ class Lync12Command(object):
                 b_data = "0D"
             else:
                 b_data = "00"
-                print("shouldn't be here bad MP3 actions")
+                logger.error("Unrecognized MP3 Command")
 
         command = (
           "02",  # head
