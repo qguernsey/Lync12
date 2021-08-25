@@ -144,7 +144,7 @@ class Lync12Lookup:
         name = []
         i = 0
         logger.debug("Zone Name %s", a)
-        while i <= len(a) and a[i] != 0x00:
+        while i < len(a) and a[i] != 0x00:
             name.append(int(a[i]))
             i += 1
 
