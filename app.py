@@ -115,6 +115,7 @@ def zone_power_all():
 
 @app.route('/zone/<int:zone_id>/volume', methods=['PUT'])
 def zone_volume(zone_id):
+    volume = int(request.values['volume'])
     command = Lync12.set_volume(zone_id, volume)
     global __dirty_bit
     __dirty_bit = True
