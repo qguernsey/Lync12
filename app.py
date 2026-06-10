@@ -52,9 +52,14 @@ def execute_command(command):
         raise
 
 
-def _run(command):
+def _run(command, dirty=False):
     try:
-        return jsonify(execute_command(command))
+        result = jsonify(execute_command(command))
+        if dirty:
+            global __dirty_bit
+            with _cache_lock:
+                __dirty_bit = True
+        return result
     except serial.SerialException as e:
         return jsonify({'error': 'serial communication failure', 'detail': str(e)}), 503
 
@@ -72,15 +77,19 @@ def status():
     with _cache_lock:
         current_time = datetime.datetime.now()
         run_time = __status_update_time + datetime.timedelta(seconds=__cache_timeout)
-        if __dirty_bit or run_time < current_time:
-            logging.debug('refreshing status')
-            command = Lync12.get_zone_state()
-            try:
-                __json_cache = execute_command(command)
-                __status_update_time = datetime.datetime.now()
-                __dirty_bit = False
-            except serial.SerialException as e:
-                return jsonify({'error': 'serial communication failure', 'detail': str(e)}), 503
+        needs_refresh = __dirty_bit or run_time < current_time
+
+    if needs_refresh:
+        logging.debug('refreshing status')
+        try:
+            new_cache = execute_command(Lync12.get_zone_state())
+        except serial.SerialException as e:
+            return jsonify({'error': 'serial communication failure', 'detail': str(e)}), 503
+        with _cache_lock:
+            __json_cache = new_cache
+            __status_update_time = datetime.datetime.now()
+            __dirty_bit = False
+
     return jsonify(__json_cache)
 
 
@@ -107,6 +116,15 @@ def send_js(path):
     return send_from_directory('js', path)
 
 
+@app.route('/zone/<int:zone_id>/power', methods=['GET'])
+def zone_power_get(zone_id):
+    with _cache_lock:
+        zone = __json_cache.get(zone_id)
+    if zone is None:
+        return jsonify({'error': 'zone not found'}), 404
+    return jsonify({'zone': zone_id, 'power': zone.get('power')})
+
+
 @app.route('/zone/<int:zone_id>/power', methods=['PUT'])
 def zone_power(zone_id):
     if request.values['power'] == '1':
@@ -116,10 +134,7 @@ def zone_power(zone_id):
     logging.debug(str(zone_id) + " setting power to " + str(power))
 
     command = Lync12.set_power(zone_id, power)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 @app.route('/zone/<int:zone_id>/mute', methods=['PUT'])
@@ -131,13 +146,10 @@ def zone_mute(zone_id):
     logging.debug(str(zone_id) + " setting mute to " + str(power))
 
     command = Lync12.set_mute(zone_id, power)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
-@app.route('/zone/all/power', methods=['PUT', 'GET'])
+@app.route('/zone/all/power', methods=['PUT'])
 def zone_power_all():
     if request.values['power'] == '1':
         power = True
@@ -146,10 +158,7 @@ def zone_power_all():
     logging.debug("setting power to of all zones to " + str(power))
 
     command = Lync12.set_power(0, power)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 @app.route('/zone/<int:zone_id>/volume', methods=['PUT'])
@@ -161,20 +170,19 @@ def zone_volume(zone_id):
     if not 0 <= volume <= 100:
         return jsonify({'error': 'volume must be between 0 and 100'}), 400
     command = Lync12.set_volume(zone_id, volume)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 @app.route('/zone/<int:zone_id>/input', methods=['PUT'])
 def zone_input(zone_id):
-    input_src = request.values['input']
+    try:
+        input_src = int(request.values['input'])
+    except (KeyError, ValueError):
+        return jsonify({'error': 'input must be an integer'}), 400
+    if not 1 <= input_src <= 18:
+        return jsonify({'error': 'input must be between 1 and 18'}), 400
     command = Lync12.set_input(zone_id, input_src)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 @app.route('/zone/<int:zone_id>/balance', methods=['PUT', 'GET'])
@@ -186,10 +194,7 @@ def zone_balance(zone_id):
     if not -18 <= balance_val <= 18:
         return jsonify({'error': 'balance must be between -18 and 18'}), 400
     command = Lync12.set_balance(zone_id, balance_val)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 @app.route('/zone/<int:zone_id>/treble', methods=['PUT', 'GET'])
@@ -201,10 +206,7 @@ def zone_treble(zone_id):
     if not -10 <= treble_val <= 10:
         return jsonify({'error': 'treble must be between -10 and 10'}), 400
     command = Lync12.set_treble(zone_id, treble_val)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 @app.route('/zone/<int:zone_id>/bass', methods=['PUT', 'GET'])
@@ -216,10 +218,7 @@ def zone_base(zone_id):
     if not -10 <= bass_val <= 10:
         return jsonify({'error': 'bass must be between -10 and 10'}), 400
     command = Lync12.set_bass(zone_id, bass_val)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 @app.route('/mp3/<string:action>', methods=['PUT', 'GET'])
@@ -230,10 +229,7 @@ def mp3_controls(action):
         abort(404)
 
     command = Lync12.mp3_action(action_id)
-    global __dirty_bit
-    with _cache_lock:
-        __dirty_bit = True
-    return _run(command)
+    return _run(command, dirty=True)
 
 
 if __name__ == '__main__':
