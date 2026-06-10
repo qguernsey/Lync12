@@ -60,7 +60,7 @@ class ByteUtils:
     @staticmethod
     def to_byte_array(hex_tuple):
         """ converts an array of hex string to a byte array """
-        command = bytearray([0 for number in range(len(hex_tuple))])
+        command = bytearray(len(hex_tuple))
         index = 0
         for h in hex_tuple:
             command[index] = ByteUtils.h2b(h)
@@ -257,9 +257,6 @@ class Lync12Command(object):
 
         logger.debug(str(self.result))
 
-        if self.command == "model":
-            return self.result
-
         self._parse()
         if self.wait_time > 0:
             time.sleep(self.wait_time)
@@ -280,13 +277,13 @@ class Lync12Command(object):
             if not(self.result[i] == 0x02 or self.result[i] == 0x4c or self.result[i] == 0xFF):
                 raise Exception("bad data input: header " + str(self.result[i:i+6]))
             elif self.result[i] == 0x4c:  # Check for raw Lync<num< return
-                print(str(self.result[i:i + 6]))
+                logger.debug(str(self.result[i:i + 6]))
                 # TODO: return JSON with model
                 i += 6
                 continue
                 # hard code for Lync12 only returned with model request, may break this out into separate method
             elif self.result[i] == 0xFF:  # trailing headers at the end of the all data
-                print(str(self.result[i:i + 6]))
+                logger.debug(str(self.result[i:i + 6]))
                 # TODO: need to handle model number
                 # TODO: need to handle Save locations
                 # end of line.. break..
@@ -548,7 +545,7 @@ class Lync12Command(object):
           b_data,  # data
           "00",  # checksum
         )
-        return Lync12Command(command, 14, "z"+str(zone)+" mute")
+        return Lync12Command(command, 14, "z"+str(zone)+" dnd")
 
     @staticmethod
     def set_balance(zone, balance):
