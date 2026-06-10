@@ -66,7 +66,12 @@ def _run(command, dirty=False):
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return send_from_directory('ui', 'index.html')
+
+
+@app.route('/ui/<path:path>')
+def ui_files(path):
+    return send_from_directory('ui', path)
 
 
 @app.route('/status')

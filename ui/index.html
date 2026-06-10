@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10101f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Lync12">
+  <title>Lync12 Controller</title>
+  <link rel="manifest" href="/ui/manifest.json">
+  <link rel="apple-touch-icon" href="/ui/icon-192.png">
+  <link rel="stylesheet" href="/ui/style.css">
+</head>
+<body>
+  <header class="app-header">
+    <span class="app-title">Lync12</span>
+    <div class="status-row">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-txt">Connecting…</span>
+    </div>
+    <div class="header-controls">
+      <button class="hdr-btn" onclick="refresh()">&#8635; Refresh</button>
+      <button class="hdr-btn success" onclick="setAllPower(true)">All On</button>
+      <button class="hdr-btn danger"  onclick="setAllPower(false)">All Off</button>
+      <button class="hdr-btn mp3-toggle" onclick="toggleMp3()">MP3 &#9660;</button>
+    </div>
+    <div class="mp3-row">
+      <span class="mp3-label">MP3</span>
+      <button class="hdr-btn icon" title="Fast Back"    onclick="sendMp3('back')">&#9664;&#9664;</button>
+      <button class="hdr-btn icon" title="Play / Pause" onclick="sendMp3('play')">&#9654;&#9646;&#9646;</button>
+      <button class="hdr-btn icon" title="Stop"         onclick="sendMp3('stop')">&#9646;&#9646;</button>
+      <button class="hdr-btn icon" title="Fast Forward" onclick="sendMp3('forward')">&#9654;&#9654;</button>
+      <button class="hdr-btn icon" title="Repeat Off"   onclick="sendMp3('repeatoff')">&#8634; Off</button>
+      <button class="hdr-btn icon" title="Repeat On"    onclick="sendMp3('repeaton')">&#8634; On</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="zone-grid" id="zone-grid"></div>
+  </main>
+
+  <script src="/ui/app.js"></script>
+</body>
+</html>
