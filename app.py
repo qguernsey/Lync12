@@ -118,6 +118,11 @@ def send_js(path):
 
 @app.route('/zone/<int:zone_id>/power', methods=['GET'])
 def zone_power_get(zone_id):
+    if 'power' in request.values:
+        power = request.values['power'] == '1'
+        logging.debug(str(zone_id) + " setting power to " + str(power))
+        command = Lync12.set_power(zone_id, power)
+        return _run(command, dirty=True)
     with _cache_lock:
         zone = __json_cache.get(zone_id)
     if zone is None:
@@ -149,8 +154,10 @@ def zone_mute(zone_id):
     return _run(command, dirty=True)
 
 
-@app.route('/zone/all/power', methods=['PUT'])
+@app.route('/zone/all/power', methods=['PUT', 'GET'])
 def zone_power_all():
+    if 'power' not in request.values:
+        return jsonify({'error': 'power parameter required'}), 400
     if request.values['power'] == '1':
         power = True
     else:
