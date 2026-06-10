@@ -28,14 +28,35 @@ _MP3_ACTIONS = {
     'reverse': Lync12.MP3_FB,
 }
 
+_serial_port = os.environ.get('SERIAL_PORT', '/dev/ttyUSB0')
+_serial_lock = threading.Lock()
+_ser = None
+
+
+def _get_serial():
+    global _ser
+    if _ser is None or not _ser.is_open:
+        _ser = serial.Serial(_serial_port, 38400, timeout=4)
+    return _ser
+
 
 def execute_command(command):
-    port = "/dev/ttyUSB0"
-    # port = "/dev/tty.UC-232AC"
-    ser = serial.Serial(port, 38400, timeout=4)
-    result = command.execute(ser)
-    ser.close()
-    return result.json_data()
+    try:
+        with _serial_lock:
+            result = command.execute(_get_serial())
+        return result.json_data()
+    except serial.SerialException as e:
+        logging.error('Serial error: ' + str(e))
+        global _ser
+        _ser = None
+        raise
+
+
+def _run(command):
+    try:
+        return jsonify(execute_command(command))
+    except serial.SerialException as e:
+        return jsonify({'error': 'serial communication failure', 'detail': str(e)}), 503
 
 
 @app.route('/')
@@ -54,28 +75,31 @@ def status():
         if __dirty_bit or run_time < current_time:
             logging.debug('refreshing status')
             command = Lync12.get_zone_state()
-            __json_cache = execute_command(command)
-            __status_update_time = datetime.datetime.now()
-            __dirty_bit = False
+            try:
+                __json_cache = execute_command(command)
+                __status_update_time = datetime.datetime.now()
+                __dirty_bit = False
+            except serial.SerialException as e:
+                return jsonify({'error': 'serial communication failure', 'detail': str(e)}), 503
     return jsonify(__json_cache)
 
 
 # @app.route('/zone_names', methods=['GET'])
 # def zone_names():
 #    command = lync12.get_zone_names()
-#    return jsonify(execute_command(command))
+#    return _run(command)
 
 
 # @app.route('/source_names', methods=['GET'])
 # def input_names():
 #    command = lync12.get_source_names()
-#    return jsonify(execute_command(command))
+#    return _run(command)
 
 
 @app.route('/model', methods=['GET'])
 def model():
     command = Lync12.get_model()
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/js/<path:path>')
@@ -95,7 +119,7 @@ def zone_power(zone_id):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/zone/<int:zone_id>/mute', methods=['PUT'])
@@ -110,7 +134,7 @@ def zone_mute(zone_id):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/zone/all/power', methods=['PUT', 'GET'])
@@ -125,7 +149,7 @@ def zone_power_all():
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/zone/<int:zone_id>/volume', methods=['PUT'])
@@ -140,7 +164,7 @@ def zone_volume(zone_id):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/zone/<int:zone_id>/input', methods=['PUT'])
@@ -150,7 +174,7 @@ def zone_input(zone_id):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/zone/<int:zone_id>/balance', methods=['PUT', 'GET'])
@@ -165,7 +189,7 @@ def zone_balance(zone_id):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/zone/<int:zone_id>/treble', methods=['PUT', 'GET'])
@@ -180,7 +204,7 @@ def zone_treble(zone_id):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/zone/<int:zone_id>/bass', methods=['PUT', 'GET'])
@@ -195,7 +219,7 @@ def zone_base(zone_id):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 @app.route('/mp3/<string:action>', methods=['PUT', 'GET'])
@@ -209,7 +233,7 @@ def mp3_controls(action):
     global __dirty_bit
     with _cache_lock:
         __dirty_bit = True
-    return jsonify(execute_command(command))
+    return _run(command)
 
 
 if __name__ == '__main__':
