@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#16162a"/>
+
+  <!-- Speaker cabinet -->
+  <rect x="136" y="64" width="240" height="384" rx="24" fill="#1e1e36" stroke="#2a2a42" stroke-width="6"/>
+
+  <!-- Cabinet grille dots -->
+  <g fill="#2a2a42">
+    <circle cx="196" cy="108" r="5"/><circle cx="216" cy="108" r="5"/><circle cx="236" cy="108" r="5"/>
+    <circle cx="256" cy="108" r="5"/><circle cx="276" cy="108" r="5"/><circle cx="296" cy="108" r="5"/>
+    <circle cx="316" cy="108" r="5"/>
+    <circle cx="196" cy="128" r="5"/><circle cx="216" cy="128" r="5"/><circle cx="236" cy="128" r="5"/>
+    <circle cx="256" cy="128" r="5"/><circle cx="276" cy="128" r="5"/><circle cx="296" cy="128" r="5"/>
+    <circle cx="316" cy="128" r="5"/>
+    <circle cx="196" cy="148" r="5"/><circle cx="216" cy="148" r="5"/><circle cx="236" cy="148" r="5"/>
+    <circle cx="256" cy="148" r="5"/><circle cx="276" cy="148" r="5"/><circle cx="296" cy="148" r="5"/>
+    <circle cx="316" cy="148" r="5"/>
+  </g>
+
+  <!-- Tweeter (top driver) -->
+  <circle cx="256" cy="196" r="36" fill="#111126" stroke="#3a3a58" stroke-width="4"/>
+  <circle cx="256" cy="196" r="18" fill="#222240" stroke="#60a5fa" stroke-width="3"/>
+  <circle cx="256" cy="196" r="7" fill="#60a5fa"/>
+
+  <!-- Woofer (main driver) -->
+  <circle cx="256" cy="340" r="88" fill="#111126" stroke="#3a3a58" stroke-width="6"/>
+  <circle cx="256" cy="340" r="66" fill="#181830" stroke="#2e2e50" stroke-width="4"/>
+  <circle cx="256" cy="340" r="44" fill="#1e1e3a" stroke="#3a3a60" stroke-width="3"/>
+  <circle cx="256" cy="340" r="22" fill="#222244" stroke="#60a5fa" stroke-width="4"/>
+  <circle cx="256" cy="340" r="9" fill="#60a5fa"/>
+
+  <!-- Sound wave arcs (right side) -->
+  <g fill="none" stroke="#60a5fa" stroke-linecap="round">
+    <path d="M390 290 Q430 340 390 390" stroke-width="10" opacity="0.9"/>
+    <path d="M410 268 Q464 340 410 412" stroke-width="8" opacity="0.55"/>
+    <path d="M430 248 Q496 340 430 432" stroke-width="6" opacity="0.25"/>
+  </g>
+</svg>

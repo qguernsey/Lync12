@@ -1,0 +1,347 @@
+/* ── Variables ──────────────────────────────────────────────── */
+:root {
+  --bg:          #0d0d1a;
+  --card-bg:     #16162a;
+  --card-border: #2a2a42;
+  --card-on:     #2a4a3a;
+  --text:        #e2e8f0;
+  --muted:       #8892a4;
+  --accent:      #60a5fa;
+  --on-color:    #4ade80;
+  --off-color:   #4b5563;
+  --mute-color:  #f87171;
+  --btn-bg:      #222236;
+  --btn-hover:   #2d2d48;
+  --radius:      10px;
+  --touch-target: 44px;
+}
+
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.app-header {
+  background: #10101f;
+  border-bottom: 1px solid var(--card-border);
+  padding: 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--off-color);
+  flex-shrink: 0;
+}
+.status-dot.ok      { background: var(--on-color); }
+.status-dot.loading { background: #fbbf24; animation: pulse 1s infinite; }
+.status-dot.error   { background: var(--mute-color); }
+@keyframes pulse { 50% { opacity: 0.3; } }
+
+.header-controls {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.mp3-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mp3-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-right: 4px;
+}
+
+/* Header buttons */
+.hdr-btn {
+  background: var(--btn-bg);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.hdr-btn:hover   { background: var(--btn-hover); }
+.hdr-btn.success:hover { background: #14532d; border-color: var(--on-color);   color: var(--on-color); }
+.hdr-btn.danger:hover  { background: #7f1d1d; border-color: var(--mute-color); color: var(--mute-color); }
+.hdr-btn.icon { padding: 5px 9px; }
+
+/* ── Zone grid ──────────────────────────────────────────────── */
+.zone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 16px;
+  padding: 20px;
+}
+
+/* ── Zone card ──────────────────────────────────────────────── */
+.zone-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+.zone-card.off { opacity: 0.6; }
+.zone-card.on  { border-color: var(--on-color); background: var(--card-on); opacity: 1; }
+
+.zone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #10101f;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.zone-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+/* ── Power switch ───────────────────────────────────────────── */
+.power-switch {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.power-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.switch-track {
+  position: relative;
+  width: 38px;
+  height: 20px;
+  background: var(--off-color);
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.power-switch input:checked ~ .switch-track { background: var(--on-color); }
+
+.switch-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  transition: left 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+.power-switch input:checked ~ .switch-track .switch-thumb { left: 21px; }
+
+/* ── Zone body ──────────────────────────────────────────────── */
+.zone-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Source selector */
+.source-select {
+  width: 100%;
+  background: var(--btn-bg);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  appearance: auto;
+}
+.source-select option { background: var(--btn-bg); color: var(--text); }
+.source-select:disabled { opacity: 0.35; cursor: default; }
+
+/* Volume / EQ rows */
+.ctrl-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctrl-lbl {
+  font-size: 10px;
+  color: var(--muted);
+  width: 32px;
+  text-align: right;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+/* Range slider */
+.slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--btn-hover);
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(96,165,250,0.5);
+}
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+.slider:disabled { opacity: 0.25; cursor: default; }
+
+.ctrl-val {
+  font-size: 11px;
+  color: var(--muted);
+  width: 26px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Button row */
+.btn-row {
+  display: flex;
+  gap: 6px;
+}
+
+.ctrl-btn {
+  flex: 1;
+  background: var(--btn-bg);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.ctrl-btn:hover:not(:disabled) { background: var(--btn-hover); }
+.ctrl-btn:disabled { opacity: 0.3; cursor: default; }
+
+.ctrl-btn.active {
+  background: rgba(248,113,113,0.15);
+  border-color: var(--mute-color);
+  color: var(--mute-color);
+}
+
+.ctrl-btn.active-eq {
+  background: rgba(96,165,250,0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* EQ panel */
+.eq-panel {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--card-border);
+}
+.eq-panel.open { display: flex; }
+
+/* ── MP3 toggle — hidden on tablet/desktop ───────────────────── */
+.mp3-toggle { display: none; }
+
+/* ── Mobile (≤599px) ────────────────────────────────────────── */
+@media (max-width: 599px) {
+  .zone-grid  { grid-template-columns: 1fr; padding: 10px; gap: 10px; }
+  .app-header { padding: 8px 12px; gap: 8px; }
+  .zone-name  { max-width: 160px; }
+
+  /* Full-width controls row with equal-flex buttons */
+  .header-controls {
+    width: 100%;
+    margin-left: 0;
+    display: flex;
+  }
+  .header-controls .hdr-btn { flex: 1; justify-content: center; }
+
+  /* MP3 row hidden until toggled; toggle button visible */
+  .mp3-row          { display: none; }
+  .mp3-row.mp3-open { display: flex; }
+  .mp3-toggle       { display: inline-flex; align-items: center; }
+
+  /* 44px minimum touch targets */
+  .hdr-btn      { min-height: var(--touch-target); display: inline-flex; align-items: center; justify-content: center; padding: 0 12px; font-size: 13px; }
+  .ctrl-btn     { min-height: var(--touch-target); font-size: 14px; }
+  .source-select { min-height: var(--touch-target); font-size: 15px; }
+
+  /* Larger slider thumb */
+  .slider { height: 6px; }
+  .slider::-webkit-slider-thumb { width: 26px; height: 26px; }
+  .slider::-moz-range-thumb     { width: 26px; height: 26px; border: none; }
+
+  /* Bigger power switch */
+  .switch-track { width: 46px; height: 24px; border-radius: 12px; }
+  .switch-thumb { width: 18px; height: 18px; top: 3px; left: 3px; }
+  .power-switch input:checked ~ .switch-track .switch-thumb { left: 25px; }
+}
+
+/* ── Tablet (600–1023px) ─────────────────────────────────────── */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .zone-grid { grid-template-columns: repeat(2, 1fr); padding: 14px; gap: 14px; }
+}
+
+/* ── Desktop (≥1024px) ───────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .zone-grid { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+}

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+
+  # ── Emulator mode (no hardware needed) ──────────────────────
+  # docker compose --profile emulator up
+  lync12-emulated:
+    build: .
+    profiles: [emulator]
+    ports:
+      - "8080:8080"
+    environment:
+      - EMULATE=true
+      - EMULATE_ZONES=12
+      - LOG_LEVEL=INFO
+
+  # ── Hardware mode (real Lync12 connected via USB serial) ─────
+  # docker compose --profile hardware up
+  lync12-hardware:
+    build: .
+    profiles: [hardware]
+    ports:
+      - "8080:8080"
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0   # adjust if device path differs
+    environment:
+      - SERIAL_PORT=/dev/ttyUSB0
+      - LOG_LEVEL=WARNING
