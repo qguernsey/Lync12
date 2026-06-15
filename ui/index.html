@@ -20,9 +20,9 @@
       <span id="status-txt">Connecting…</span>
     </div>
     <div class="header-controls">
-      <button class="hdr-btn" onclick="refresh()">&#8635; Refresh</button>
-      <button class="hdr-btn success" onclick="setAllPower(true)">All On</button>
-      <button class="hdr-btn danger"  onclick="setAllPower(false)">All Off</button>
+      <button class="hdr-btn" onclick="this.blur(); refresh()">&#8635; Refresh</button>
+      <button class="hdr-btn success" onclick="this.blur(); setAllPower(true)">All On</button>
+      <button class="hdr-btn danger"  onclick="this.blur(); setAllPower(false)">All Off</button>
       <button class="hdr-btn mp3-toggle" onclick="toggleMp3()">MP3 &#9660;</button>
     </div>
     <div class="mp3-row">
