@@ -52,13 +52,17 @@ def execute_command(command):
         raise
 
 
+def mark_dirty():
+    global __dirty_bit
+    with _cache_lock:
+        __dirty_bit = True
+
+
 def _run(command, dirty=False):
     try:
         result = jsonify(execute_command(command))
         if dirty:
-            global __dirty_bit
-            with _cache_lock:
-                __dirty_bit = True
+            mark_dirty()
         return result
     except serial.SerialException as e:
         return jsonify({'error': 'serial communication failure', 'detail': str(e)}), 503

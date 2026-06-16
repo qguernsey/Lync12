@@ -13,6 +13,13 @@ services:
       - EMULATE=true
       - EMULATE_ZONES=12
       - LOG_LEVEL=INFO
+      # Uncomment to enable MQTT bridge:
+      # - MQTT_ENABLED=true
+      # - MQTT_BROKER=mqtt.example.com
+      # - MQTT_PORT=1883
+      # - MQTT_USERNAME=
+      # - MQTT_PASSWORD=
+      # - MQTT_TOPIC_PREFIX=lync12
 
   # ── Hardware mode (real Lync12 connected via USB serial) ─────
   # docker compose --profile hardware up
@@ -26,3 +33,10 @@ services:
     environment:
       - SERIAL_PORT=/dev/ttyUSB0
       - LOG_LEVEL=WARNING
+      # Uncomment to enable MQTT bridge:
+      # - MQTT_ENABLED=true
+      # - MQTT_BROKER=mqtt.example.com
+      # - MQTT_PORT=1883
+      # - MQTT_USERNAME=
+      # - MQTT_PASSWORD=
+      # - MQTT_TOPIC_PREFIX=lync12
