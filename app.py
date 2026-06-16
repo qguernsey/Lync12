@@ -36,7 +36,7 @@ _ser = None
 def _get_serial():
     global _ser
     if _ser is None or not _ser.is_open:
-        _ser = serial.Serial(_serial_port, 38400, timeout=4)
+        _ser = serial.Serial(_serial_port, 38400, timeout=4, inter_byte_timeout=0.05)
     return _ser
 
 
