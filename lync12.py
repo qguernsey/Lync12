@@ -232,52 +232,12 @@ class Lync12Result(object):
         return self.data
 
 
-# Exact byte length of each response packet keyed by command byte.
-# Used by _read_response() to consume packets without knowing total length upfront.
-_PACKET_SIZES = {
-    0x05: 14,  # Zone state
-    0x06: 14,  # Keypad exists
-    0x09: 6,   # MP3 stop
-    0x0D: 18,  # Zone name
-    0x0E: 18,  # Source name
-    0x11: 69,  # MP3 file name
-    0x12: 69,  # MP3 artist name
-    0x13: 22,  # MP3 on
-    0x14: 22,  # MP3 off
-    0x1b: 14,  # Error setting value
-    0x1e: 14,  # Zone default saved
-}
-
-
 def _read_response(ser):
-    """Read a variable-length response by consuming known-size packets.
-
-    Stops at the 0xFF end-of-data marker so we never block waiting for bytes
-    that won't come. inter_byte_timeout on the serial port acts as a fallback
-    for any unknown future packet types.
-    """
-    buf = bytearray()
-    while True:
-        hdr = ser.read(1)
-        if not hdr:
-            break  # inter_byte_timeout or overall timeout expired
-        b = hdr[0]
-        buf += hdr
-        if b == 0xFF:
-            break  # protocol end-of-data marker
-        elif b == 0x4c:
-            buf += ser.read(5)  # "Lync<n>" model return is 6 bytes total
-        elif b == 0x02:
-            preamble = ser.read(3)  # reserved, zone, command
-            if len(preamble) < 3:
-                break
-            buf += preamble
-            size = _PACKET_SIZES.get(preamble[2])
-            if size and size > 4:
-                buf += ser.read(size - 4)
-        # 0x00 or unknown headers fall through; the outer _parse() will
-        # raise an exception with context, same as before.
-    return bytes(buf)
+    # A single large read lets inter_byte_timeout=0.05s do its job: we wait up
+    # to 4s for the first byte (command latency), then return ~50ms after the
+    # last byte arrives. Breaking on 0xFF mid-stream caused stale bytes to
+    # remain in the buffer when hardware sends data after its 0xFF marker.
+    return ser.read(8192)
 
 
 class Lync12Command(object):
@@ -300,6 +260,7 @@ class Lync12Command(object):
     def execute(self, ser):
         """ execute the command and returns the result """
         logger.debug(str(self.command))
+        ser.reset_input_buffer()
         ser.write(self.command)
         self.result = _read_response(ser)
 
