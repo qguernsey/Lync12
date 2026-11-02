@@ -52,6 +52,7 @@ import app as _app
 from lync12 import Lync12Command as Lync12
 from paho.mqtt import client as mqtt_client
 from paho.mqtt.enums import CallbackAPIVersion
+from prometheus_client import Gauge
 
 logger = logging.getLogger(__name__)
 
@@ -82,6 +83,9 @@ class Lync12MqttBridge:
             f'{self._prefix}/availability', 'offline', qos=self._qos, retain=True
         )
         self._client.reconnect_delay_set(min_delay=1, max_delay=60)
+        # Created here, not at import, so it exists only when the bridge is enabled.
+        self._connected = Gauge('lync12_mqtt_connected',
+                                'Whether the MQTT bridge is connected to the broker (1) or not (0).')
         self._client.on_connect = self._on_connect
         self._client.on_disconnect = self._on_disconnect
         self._client.on_message = self._on_message
@@ -101,6 +105,7 @@ class Lync12MqttBridge:
             logger.warning('MQTT connect failed: %s', reason_code)
             return
         logger.info('MQTT connected to %s:%d', self._broker, self._port)
+        self._connected.set(1)
         p = self._prefix
         client.publish(f'{p}/availability', 'online', qos=self._qos, retain=True)
         client.subscribe([(f'{p}/zone/+/+/set', self._qos),
@@ -109,6 +114,7 @@ class Lync12MqttBridge:
         self._publish_all_zones()
 
     def _on_disconnect(self, client, userdata, disconnect_flags, reason_code, properties):
+        self._connected.set(0)
         if reason_code != 0:
             logger.warning('MQTT disconnected unexpectedly (%s) — will reconnect', reason_code)
 

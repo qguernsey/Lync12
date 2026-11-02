@@ -44,6 +44,7 @@ docker compose --profile hardware up
 | `EMULATE_ZONES`        | `12`           | Number of zones for emulator (6 or 12)       |
 | `PORT`                 | `8080`         | HTTP port                                    |
 | `CACHE_TIMEOUT`        | `300`          | Zone status cache TTL in seconds             |
+| `POLL_INTERVAL`        | `60`           | Seconds between background status reads (`0` disables) |
 | `LOG_LEVEL`            | `INFO`         | Logging level                                |
 | `MQTT_ENABLED`         | —              | Set to `true` to enable the MQTT bridge      |
 | `MQTT_BROKER`          | `localhost`    | MQTT broker hostname or IP                   |
@@ -61,6 +62,7 @@ docker compose --profile hardware up
 | Method | Endpoint                  | Body / Params             | Description              |
 |--------|---------------------------|---------------------------|--------------------------|
 | GET    | `/status`                 | —                         | All zone states          |
+| GET    | `/metrics`                | —                         | Prometheus metrics (see below) |
 | PUT    | `/zone/<id>/power`        | `power=1\|0`              | Set zone power           |
 | GET    | `/zone/<id>/power`        | `?power=1\|0` (optional)  | Get or set zone power    |
 | PUT    | `/zone/all/power`         | `power=1\|0`              | Set all zones power      |
@@ -73,6 +75,21 @@ docker compose --profile hardware up
 | PUT    | `/mp3/<action>`           | —                         | MP3 control (see below)  |
 
 MP3 actions: `play`, `stop`, `back`, `forward`, `repeaton`, `repeatoff`
+
+## Metrics
+
+`GET /metrics` serves Prometheus metrics:
+
+| Metric | Meaning |
+|---|---|
+| `lync12_last_success_timestamp_seconds` | When the controller last answered with a reply that parsed |
+| `lync12_commands_total{command, outcome}` | Commands sent, by kind (`state`, `power`, `set_volume`, …) and outcome: `ok`, `empty_reply` (port open, nothing came back: controller off or cable out), `parse_error`, `serial_error` (port missing or failed: USB adapter) |
+| `lync12_command_duration_seconds` | Time from writing a command to parsing its reply; about 4 s means the read timed out |
+| `lync12_zones_reported` | Zones in the last status reply: 12 on a Lync12, 0 if the reply was empty |
+| `lync12_serial_open` | Whether the serial port is open |
+| `lync12_mqtt_connected` | Whether the MQTT bridge is connected; present only when `MQTT_ENABLED` is set |
+
+A background thread reads every zone each `POLL_INTERVAL` seconds and refreshes the `/status` cache, so the last-success timestamp goes stale only when the controller stops answering, not when nobody is using the UI. The amplifiers' standby does not affect it: the controller answers either way.
 
 ## MQTT Control
 
