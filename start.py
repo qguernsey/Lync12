@@ -8,6 +8,7 @@ Environment variables:
   SERIAL_PORT=/dev/...      Serial device path (ignored when EMULATE=true).
   LOG_LEVEL=INFO            Logging level.
   PORT=8080                 HTTP port to listen on.
+  POLL_INTERVAL=60          Seconds between background status reads (0 disables).
 
   MQTT_ENABLED=true         Enable the MQTT bridge (disabled by default).
   MQTT_BROKER=localhost     MQTT broker hostname or IP.
@@ -37,9 +38,10 @@ if os.environ.get('EMULATE', '').lower() in ('1', 'true', 'yes'):
     os.environ['SERIAL_PORT'] = slave
     logging.info('Emulator started — %d zones, SERIAL_PORT=%s', zones, slave)
 
-from app import app
+from app import app, start_status_poller
 from mqtt_bridge import start_mqtt_bridge
 start_mqtt_bridge()
+start_status_poller()
 
 port = int(os.environ.get('PORT', 8080))
 logging.info('Starting Lync12 web server on port %d', port)
